@@ -4,7 +4,7 @@ import {
     CommandInteractionOptionResolver,
     SlashCommandBuilder,
 } from "discord.js";
-import { setWelcomeChannelId } from "../../db";
+import { setWelcomeChannelId } from "../db";
 
 export const data = new SlashCommandBuilder()
     .setName("setwelcome")
@@ -17,7 +17,20 @@ export const data = new SlashCommandBuilder()
 
 export async function execute(interaction: CommandInteraction) {
     if (!interaction.guild) {
-        await interaction.reply("This command can only be used in a server.");
+        await interaction.reply({
+            content: "This command can only be used in a server.",
+            ephemeral: true,
+        });
+        return;
+    }
+
+    // Check if the user has the required permissions
+    const member = await interaction.guild.members.fetch(interaction.user.id);
+    if (!member.permissions.has("Administrator")) {
+        await interaction.reply({
+            content: "You do not have permission to use this command.",
+            ephemeral: true,
+        });
         return;
     }
 

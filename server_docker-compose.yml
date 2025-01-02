@@ -12,16 +12,16 @@ services:
       - POSTGRES_PORT=5432
     depends_on:
       - db
-    volumes:
-      - .:/app
-      - /app/node_modules
     command: [ "node", "dist/main.js" ]
     restart: always
 
   db:
     image: postgres:15
     container_name: postgres_db
-    environment: POSTGRES_USER=postgres POSTGRES_PASSWORD=postgres POSTGRES_DB=botdb
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: botdb
     ports:
       - "5432:5432"
     volumes:

@@ -5,6 +5,7 @@ import { handleWelcomeMessage } from "./events/welcome";
 import { handleInteraction } from "./events/interaction";
 import { initDb } from "./db";
 import { setupRules } from "./events/rules";
+import { checkForBlacklistedUser } from "./events/checkblacklist";
 
 const client = new Client({
   intents: [
@@ -38,6 +39,7 @@ client.on(Events.InteractionCreate, async (interaction) => {
 
 client.on(Events.GuildMemberAdd, async (member) => {
   await handleWelcomeMessage(member);
+  await checkForBlacklistedUser(member);
 });
 
 client.on(Events.MessageReactionAdd, async (reaction, user) => {

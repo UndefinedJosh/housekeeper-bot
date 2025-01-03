@@ -102,4 +102,5 @@ export async function execute(interaction: CommandInteraction) {
 
   // Post the embed in the specified channel
   await channel.send({ embeds: [embed], components: [row] });
+  await interaction.reply({content: "New Mod Post was created successfully!"})
 }
